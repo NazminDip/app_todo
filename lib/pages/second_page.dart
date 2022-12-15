@@ -49,9 +49,7 @@ class _SecondPageState extends State<SecondPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(15),
                   child: TextFormField(
-                    validator: ((value) {
-                      return mailValidation(value);
-                    }),
+                    
                     decoration: const InputDecoration(
                       filled: true,
                       fillColor: Color.fromARGB(255, 236, 231, 231),
@@ -75,6 +73,9 @@ class _SecondPageState extends State<SecondPage> {
                 padding: const EdgeInsets.all(15),
                 child: TextFormField(
                   controller: mailController,
+                  validator: ((value) {
+                      return mailValidation(value);
+                    }),
                   decoration: const InputDecoration(
                     filled: true,
                     fillColor: Color.fromARGB(255, 236, 231, 231),
