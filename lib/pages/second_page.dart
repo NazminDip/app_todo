@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'first_page.dart';
+
 class SecondPage extends StatefulWidget {
   const SecondPage({Key? key}) : super(key: key);
 
@@ -8,16 +10,16 @@ class SecondPage extends StatefulWidget {
 }
 
 class _SecondPageState extends State<SecondPage> {
-  TextEditingController passController = TextEditingController();
-  TextEditingController mailController = TextEditingController();
+  TextEditingController userController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
-  final formkey2 = GlobalKey<FormState>();
+  final formkey = GlobalKey<FormState>();
   var isVisible = true;
   @override
   void initState() {
     super.initState();
-    passController = TextEditingController();
-    mailController = TextEditingController();
+    passwordController = TextEditingController();
+    userController = TextEditingController();
     nameController = TextEditingController();
   }
 
@@ -37,7 +39,7 @@ class _SecondPageState extends State<SecondPage> {
         child: SingleChildScrollView(
           child: Center(
               child: Form(
-            key: formkey2,
+            key: formkey,
             child: Column(
               children: [
                 const SizedBox(height: 15),
@@ -73,9 +75,9 @@ class _SecondPageState extends State<SecondPage> {
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: TextFormField(
-                    controller: mailController,
+                    controller: userController,
                     validator: ((value) {
-                      return mailValidation(value);
+                      return emailValidation(value);
                     }),
                     decoration: const InputDecoration(
                       filled: true,
@@ -96,9 +98,9 @@ class _SecondPageState extends State<SecondPage> {
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: TextFormField(
-                      controller: passController,
+                      controller: passwordController,
                       validator: ((value) {
-                        return passValidation(value);
+                        return passwordValidation(value);
                       }),
                       obscureText: isVisible ? true : false,
                       decoration: InputDecoration(
@@ -161,9 +163,7 @@ class _SecondPageState extends State<SecondPage> {
     );
   }
 
-/////////////////////// Bug
-  ///
-  ///
+  //////////////////////////////// Validation
   name(var value) {
     if (value.isEmpty) {
       return 'Enter Your Full Name';
@@ -171,43 +171,45 @@ class _SecondPageState extends State<SecondPage> {
     return null;
   }
 
-  mailValidation(var value) {
+  emailValidation(var value) {
     if (value.isEmpty) {
-      return 'Enter Valid Gmail';
+      return 'Enter Your Gmail';
     } else if (!value.contains('@gmail.com')) {
-      return 'Enter Valid Gmail';
+      return 'Please Enter Valid Gmail';
     }
     return null;
   }
 
-  passValidation(value) {
+  passwordValidation(value) {
     if (value.isEmpty) {
-      return 'Enter Your Passwordat least 8 Character ';
-    } else if (value.lenth <= 7) {
-      return 'Enter Valid Password';
+      return 'Enter Your  Password';
+    } else if (value.length <= 7) {
+      return 'Please Password at least 8 Character';
     }
     return null;
   }
 
   regisButton() {
-    final isValid = formkey2.currentState!.validate();
+    final isValid = formkey.currentState!.validate();
     if (!isValid) {
-      formkey2.currentState!.save();
+      formkey.currentState!.save();
       return ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
-          "Your Gmail or Password Is Incorrect Format",
+          "Your Gmail or Password Is Incorrect",
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         backgroundColor: Colors.pink,
       ));
     } else if (isValid) {
-      return ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
-          "Your Register Is Success. Login Now",
+          "Your Register Is Success.Login Now",
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         backgroundColor: Colors.pink,
       ));
+      return Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const FirstPage()));
     }
   }
 }
